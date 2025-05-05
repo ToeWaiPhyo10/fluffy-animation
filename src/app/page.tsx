@@ -3,13 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ViewCollectionButton } from "@/components/ViewCollectionButton";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const images = Array.from(
-    { length: 16 },
-    (_, i) => `/humans/img${i + 1}.webp`
-  );
 
   useEffect(() => {
     setIsLoading(true);
@@ -154,7 +151,7 @@ export default function Home() {
                   <div className="absolute inset-0">
                     <div className="relative h-full w-full mx-auto">
                       {imageList.map((image, index) => (
-                        <div
+                        <motion.div
                           key={index}
                           className="absolute"
                           style={{
@@ -164,16 +161,25 @@ export default function Home() {
                             height: 750,
                             zIndex: image.zIndex,
                           }}
+                          animate={{
+                            y: [0, -15, 0],
+                          }}
+                          transition={{
+                            duration: 0.5,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            delay: index * 0.05,
+                          }}
                         >
-                          <div>
+                          <div className="relative w-full h-full">
                             <Image
                               src={image.src}
-                              alt={`Character 1`}
+                              alt={`Character ${index + 1}`}
                               fill
                               className="object-cover"
                             />
                           </div>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
