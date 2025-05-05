@@ -1,103 +1,239 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { ViewCollectionButton } from "@/components/ViewCollectionButton";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [isLoading, setIsLoading] = useState(true);
+  const images = Array.from(
+    { length: 16 },
+    (_, i) => `/humans/img${i + 1}.webp`
+  );
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const imageList = [
+    {
+      src: "/humans/img1.webp", //yellow hair
+      top: "-14%",
+      left: "-10%",
+      zIndex: 15,
+    },
+    {
+      src: "/humans/img2.webp", //blue hat
+      top: "-19%",
+      left: "12%",
+      zIndex: 14,
+    },
+    {
+      src: "/humans/img3.webp", //brown and curly hair
+      top: "-32%",
+      left: "35%",
+      zIndex: 13,
+    },
+    {
+      src: "/humans/img4.webp", //silver earing
+      top: "-42%",
+      left: "60%",
+      zIndex: 12,
+    },
+    {
+      src: "/humans/img4.webp", //gray cat
+      top: "5%",
+      left: "-25%",
+      zIndex: 20,
+    },
+    {
+      src: "/humans/img5.webp", //spot cat
+      top: "15%",
+      left: "5%",
+      zIndex: 19,
+    },
+    {
+      src: "/humans/img6.webp", //black hat
+      top: "5%",
+      left: "40%",
+      zIndex: 18,
+    },
+    {
+      src: "/humans/img7.webp", //red hair girl
+      top: "0%",
+      left: "60%",
+      zIndex: 17,
+    },
+    {
+      src: "/humans/img8.webp", //brown hat and black cat
+      top: "30%",
+      left: "-15%",
+      zIndex: 25,
+    },
+    {
+      src: "/humans/img9.webp", //pink hair
+      top: "35%",
+      left: "25%",
+      zIndex: 24,
+    },
+    {
+      src: "/humans/img10.webp", //line hair and gray cat
+      top: "39%",
+      left: "45%",
+      zIndex: 23,
+    },
+    {
+      src: "/humans/img16.webp", //dark blue hair and black cat
+      top: "35%",
+      left: "65%",
+      zIndex: 22,
+    },
+    {
+      src: "/humans/img12.webp",
+      top: "-60%",
+      left: "-10%",
+      zIndex: 9,
+    },
+    {
+      src: "/humans/img13.webp",
+      top: "-60%",
+      left: "20%",
+      zIndex: 9,
+    },
+    {
+      src: "/humans/img15.webp",
+      top: "-50%",
+      left: "50%",
+      zIndex: 7,
+    },
+    {
+      src: "/humans/img11.webp",
+      top: "-40%",
+      left: "60%",
+      zIndex: 6,
+    },
+  ];
+  return (
+    <main className="min-h-screen w-full bg-white overflow-hidden">
+      {isLoading ? (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
+          <div className="relative h-40 w-40">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/loading.webp"
+              alt="Loading"
+              fill
+              className="object-contain"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      ) : (
+        <div className="overflow-hidden">
+          <div className="relative h-screen w-full bg-white">
+            <div className="absolute inset-0">
+              <div className="relative h-full w-full">
+                {/* Logo moved here from fixed position */}
+                <div className="absolute left-10 top-12 z-[9999]">
+                  <Link href="/" className="flex items-center">
+                    <Image
+                      src="/logo.webp"
+                      alt="Fluffy HUGS"
+                      width={300}
+                      height={160}
+                      className="object-cover"
+                    />
+                  </Link>
+                </div>
+                <div className="relative h-screen w-full bg-white">
+                  <div className="absolute inset-0">
+                    <div className="relative h-full w-full mx-auto">
+                      {imageList.map((image, index) => (
+                        <div
+                          key={index}
+                          className="absolute"
+                          style={{
+                            top: image.top,
+                            left: image.left,
+                            width: 750,
+                            height: 750,
+                            zIndex: image.zIndex,
+                          }}
+                        >
+                          <div>
+                            <Image
+                              src={image.src}
+                              alt={`Character 1`}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* footer */}
+                  <div className="absolute bottom-0 left-0 right-0 z-[100] flex justify-between items-center p-4 ">
+                    <div className="flex space-x-6">
+                      <Link
+                        href="https://discord.com"
+                        className="transition-transform hover:scale-110"
+                      >
+                        <div className="bg-[#5865F2] rounded-full p-2">
+                          <Image
+                            src="/social/discord.svg"
+                            alt="Discord"
+                            width={30}
+                            height={24}
+                            className="object-contain"
+                          />
+                        </div>
+                      </Link>
+                      <Link
+                        href="https://opensea.io"
+                        className="transition-transform hover:scale-110"
+                      >
+                        <div className="bg-[#2081E2] rounded-full p-2">
+                          <Image
+                            src="/social/opensea.svg"
+                            alt="OpenSea"
+                            width={30}
+                            height={24}
+                            className="object-contain"
+                          />
+                        </div>
+                      </Link>
+                      <Link
+                        href="https://twitter.com"
+                        className="transition-transform hover:scale-110"
+                      >
+                        <div className="bg-[#1DA1F2] rounded-full p-2">
+                          <Image
+                            src="/social/twitter.svg"
+                            alt="Twitter"
+                            width={30}
+                            height={24}
+                            className="object-contain"
+                          />
+                        </div>
+                      </Link>
+                    </div>
+
+                    <ViewCollectionButton
+                      onClick={() => console.log("View Collection clicked")}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
   );
 }
