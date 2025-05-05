@@ -9,7 +9,7 @@ const vectors = [
   "/custom/vector3.svg",
   "/custom/vector4.svg",
 ];
-const SecondSlide = () => {
+const ThirdSlide = () => {
   const items = Array.from({ length: 10 }).map((_, index) => {
     const x = Math.random() * 80; // random x position (0% to 80%)
     const delay = Math.random() * 10; // random delay (0s to 10s)
@@ -33,118 +33,136 @@ const SecondSlide = () => {
   return (
     <div>
       <div className="relative h-screen w-full bg-gradient-to-r from-[#fbf8f0] to-[#fbf8f0] overflow-hidden">
-        {/* Animated Background Vectors */}
-
-        {items.map((item, index) => (
-          <motion.div
-            key={`vector-${item.id}`}
-            className="absolute w-full"
-            initial={{
-              y: "120vh",
-              x: `${item.x}%`,
-            }}
-            animate={{
-              y: "-100vh",
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              delay: index === 0 ? 0 : item.delay,
-              ease: "linear",
-            }}
-          >
-            <Image
-              src={item.src}
-              alt="vector"
-              width={item.width}
-              height={item.height}
-            />
-          </motion.div>
-        ))}
-        {/* <motion.div
-          key={`vector-`}
-          className="absolute"
-          initial={{
-            y: "120vh",
-            x: `${Math.random() * 80}%`,
-            rotate: Math.random() * 360,
-            scale: Math.random() * 0.5 + 1,
-          }}
-          animate={{
-            y: "-100vh",
-            rotate: Math.random() * 360,
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            delay: 2,
-            ease: "linear",
-          }}
-        >
-          <Image
-            src={"/custom/vector1.svg"}
-            alt="vector"
-            width={Math.random() * 100 + 100}
-            height={Math.random() * 100 + 100}
-          />
-        </motion.div> */}
-
         <div className="relative h-full w-full">
-          <motion.div
-            className="absolute top-[30%] left-0 right-0 flex justify-center z-[100]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-          >
+          {/* Logo added here for Slide 3 */}
+          <div className="absolute left-10 top-12 z-[100]">
             <Link href="/" className="flex items-center">
               <Image
                 src="/logo.webp"
                 alt="Fluffy HUGS"
-                width={900}
+                width={400}
                 height={80}
                 className="object-cover"
               />
             </Link>
-          </motion.div>
+          </div>
 
-          <div className="absolute inset-0 flex items-center justify-center z-[100]">
+          <div className="absolute right-[10%] z-100 text-left xl:top-[30%] top-[20%] xl:px-0 px-12">
             <motion.div
-              initial={{ y: 100, rotate: 0, opacity: 0.8 }}
-              animate={{
-                y: 60,
-                rotate: [0, 0, -90],
-                opacity: 1,
-              }}
-              transition={{
-                duration: 1,
-                times: [0, 0.4, 1],
-                ease: "easeOut",
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <div className="grid grid-cols-12 gap-2 text-2xl text-[#415296] leading-10 font-medium tracking-[12px]">
+                {["ふわふわの動物たちに、", "囲まれて、暮らしたい"].map(
+                  (text, index) => (
+                    <motion.div
+                      key={index}
+                      className="col-span-12 text-left"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{
+                        opacity: 1,
+                        y: [0, -20, 0],
+                      }}
+                      transition={{
+                        opacity: {
+                          duration: 0.6,
+                          delay: index * 0.8,
+                        },
+                        y: {
+                          duration: 8,
+                          ease: "easeInOut",
+                          repeat: Infinity,
+                          repeatType: "reverse",
+                          delay: index * 0.8 + 0.6, // Start bouncing after the appear animation completes
+                          times: [
+                            0,
+                            ...Array(5)
+                              .fill(0)
+                              .map((_, i) => (i + 1) / 6),
+                            1,
+                          ],
+                        },
+                      }}
+                    >
+                      {text}
+                    </motion.div>
+                  )
+                )}
+              </div>
+              <div className="grid mt-12 grid-cols-12 gap-2 text-2xl text-[#415296] leading-[40px] font-medium tracking-[12px]">
+                {["ペットや動物が大好きなあなたへ"].map((text, index) => (
+                  <motion.div
+                    key={index}
+                    className="col-span-12 text-left"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{
+                      opacity: 1,
+                      y: [0, -20, 0],
+                    }}
+                    transition={{
+                      opacity: {
+                        duration: 0.6,
+                        delay: index * 0.8, // Each line appears 0.8s after the previous one
+                      },
+                      y: {
+                        duration: 8,
+                        ease: "easeInOut",
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        delay: index * 0.8 + 0.6, // Start bouncing after the appear animation completes
+                        times: [
+                          0,
+                          ...Array(5)
+                            .fill(0)
+                            .map((_, i) => (i + 1) / 6),
+                          1,
+                        ],
+                      },
+                    }}
+                  >
+                    {text}
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 z-[100] top-[50%] left-[20%]"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="relative"
             >
               <motion.div
                 animate={{
-                  x: [0, -25, 0],
+                  y: [0, -15, 0],
                 }}
                 transition={{
-                  duration: 1.2,
+                  duration: 0.5,
                   ease: "easeInOut",
-                  repeat: Number.POSITIVE_INFINITY,
-                  delay: 1.5,
+                  repeat: Infinity,
+                  delay: 4 * 0.05,
                 }}
               >
                 <Image
                   src="/humans/human.webp"
-                  alt="Character walking"
-                  width={300}
-                  height={300}
-                  className="object-cover"
-                  priority
+                  alt="Loading"
+                  width={200}
+                  height={200}
+                  className="object-contain"
                 />
               </motion.div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </div>
+
       <div className="absolute bottom-0 left-0 right-0 z-[100] flex justify-between items-center p-4 ">
         <div className="flex items-center gap-2 sm:gap-4 scale-75 sm:scale-100">
           <Link
@@ -222,4 +240,4 @@ const SecondSlide = () => {
   );
 };
 
-export default SecondSlide;
+export default ThirdSlide;
