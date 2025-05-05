@@ -123,19 +123,29 @@ export default function Home() {
     "/custom/vector5.svg",
   ];
 
-  const items = Array.from({ length: 4 }).map((_, index) => {
-    const columnWidth = 25;
-    const x = index * columnWidth + Math.random() * 5;
-    const delay = index * 2;
+  // Create 8 items to ensure more frequent animations
+  const items = Array.from({ length: 8 }).map((_, index) => {
+    // Random position across the screen
+    const x = Math.random() * 80; // 0-80% of screen width
+
+    const y = Math.random() * 80; // 0-80% of screen height
+
+    // Stagger delays in 1-second intervals but with some randomness
+    // This ensures at least one vector shows per second
+    const baseDelay = Math.floor(index / 2); // Two items share similar base delay
+    const randomOffset = Math.random() * 0.5; // Add up to 0.5s random offset
+    const delay = baseDelay + randomOffset;
 
     const scale = 1.2;
     const width = 150;
     const height = 150;
+    // Randomly select vector but ensure even distribution
     const src = vectors[index % vectors.length];
 
     return {
       id: index,
       x,
+      y,
       delay,
       scale,
       width,
@@ -155,6 +165,9 @@ export default function Home() {
                 alt="Loading"
                 fill
                 className="object-contain"
+                priority
+                loading="eager"
+                quality={100}
               />
             </div>
           </div>
@@ -185,6 +198,9 @@ export default function Home() {
                   width={300}
                   height={160}
                   className="w-48 sm:w-64 md:w-auto object-contain"
+                  priority
+                  loading="eager"
+                  quality={100}
                 />
               </Link>
             </motion.div>
@@ -226,6 +242,9 @@ export default function Home() {
                         alt={`Character ${index + 1}`}
                         fill
                         className="object-cover"
+                        priority
+                        loading="eager"
+                        quality={100}
                       />
                     </div>
                   </motion.div>
@@ -281,6 +300,9 @@ export default function Home() {
                     fill={step === 1 ? true : false}
                     className={`object-cover ${step === 1 ? "object-top" : ""}`}
                     sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                    loading="eager"
+                    quality={100}
                   />
                 </motion.div>
               </motion.div>
@@ -351,18 +373,100 @@ export default function Home() {
                   ))}
               </AnimatePresence>
 
+              <AnimatePresence>
+                {step === 3 &&
+                  items.map((item, index) => (
+                    <motion.div
+                      key={`vector-${item.id}`}
+                      className="absolute h-full w-full"
+                      initial={{
+                        y: `${item.y}%`,
+                        x: `120%`,
+                        opacity: 0,
+                      }}
+                      animate={{
+                        x: "-20%",
+                        opacity: 1,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        transition: { duration: 0.5 },
+                      }}
+                      transition={{
+                        x: {
+                          duration: 15,
+                          repeat: Infinity,
+                          delay: index === 0 ? 0 : item.delay,
+                          ease: "linear",
+                        },
+                        opacity: { duration: 0.5 },
+                      }}
+                    >
+                      <Image
+                        src={item.src}
+                        alt="vector"
+                        width={item.width}
+                        height={item.height}
+                      />
+                    </motion.div>
+                  ))}
+              </AnimatePresence>
+
               {/* Japanese text */}
-              {step === 3 && (
-                <motion.div
-                  className="absolute right-[10%] z-100 text-left xl:top-[30%] top-[20%] xl:px-0 px-12"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <div className="grid grid-cols-12 gap-2 text-2xl text-[#415296] leading-10 font-medium tracking-[12px]">
-                    {["ふわふわの動物たちに、", "囲まれて、暮らしたい"].map(
-                      (text, index) => (
+              <AnimatePresence mode="wait">
+                {step === 3 && (
+                  <motion.div
+                    className="absolute right-[10%] z-100 text-left xl:top-[30%] top-[20%] xl:px-0 px-12"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <div className="grid grid-cols-12 gap-2 text-2xl text-[#415296] leading-10 font-medium tracking-[12px]">
+                      {["ふわふわの動物たちに、", "囲まれて、暮らしたい"].map(
+                        (text, index) => (
+                          <motion.div
+                            key={index}
+                            className="col-span-12 text-left"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{
+                              opacity: 1,
+                              y: [0, -15, 0, 15, 0],
+                              x: [0, 10, 0, -10, 0],
+                              rotate: [0, 1, 0, -1, 0],
+                            }}
+                            transition={{
+                              opacity: {
+                                duration: 0.6,
+                                delay: index * 0.8,
+                              },
+                              y: {
+                                duration: 4,
+                                ease: "easeInOut",
+                                repeat: Infinity,
+                                delay: index * 0.2,
+                              },
+                              x: {
+                                duration: 4,
+                                ease: "easeInOut",
+                                repeat: Infinity,
+                                delay: index * 0.2,
+                              },
+                              rotate: {
+                                duration: 4,
+                                ease: "easeInOut",
+                                repeat: Infinity,
+                                delay: index * 0.2,
+                              },
+                            }}
+                          >
+                            {text}
+                          </motion.div>
+                        )
+                      )}
+                    </div>
+                    <div className="grid mt-12 grid-cols-12 gap-2 text-2xl text-[#415296] leading-[40px] font-medium tracking-[12px]">
+                      {["ペットや動物が大好きなあなたへ"].map((text, index) => (
                         <motion.div
                           key={index}
                           className="col-span-12 text-left"
@@ -400,52 +504,11 @@ export default function Home() {
                         >
                           {text}
                         </motion.div>
-                      )
-                    )}
-                  </div>
-                  <div className="grid mt-12 grid-cols-12 gap-2 text-2xl text-[#415296] leading-[40px] font-medium tracking-[12px]">
-                    {["ペットや動物が大好きなあなたへ"].map((text, index) => (
-                      <motion.div
-                        key={index}
-                        className="col-span-12 text-left"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{
-                          opacity: 1,
-                          y: [0, -15, 0, 15, 0],
-                          x: [0, 10, 0, -10, 0],
-                          rotate: [0, 1, 0, -1, 0],
-                        }}
-                        transition={{
-                          opacity: {
-                            duration: 0.6,
-                            delay: index * 0.8,
-                          },
-                          y: {
-                            duration: 4,
-                            ease: "easeInOut",
-                            repeat: Infinity,
-                            delay: index * 0.2,
-                          },
-                          x: {
-                            duration: 4,
-                            ease: "easeInOut",
-                            repeat: Infinity,
-                            delay: index * 0.2,
-                          },
-                          rotate: {
-                            duration: 4,
-                            ease: "easeInOut",
-                            repeat: Infinity,
-                            delay: index * 0.2,
-                          },
-                        }}
-                      >
-                        {text}
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               {/* Footer */}
               <div className="absolute bottom-0 left-0 right-0 z-[100] flex justify-between items-center p-4">
                 <div className="flex items-center gap-2 sm:gap-4 scale-75 sm:scale-100">
