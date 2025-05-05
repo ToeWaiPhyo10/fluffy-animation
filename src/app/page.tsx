@@ -5,6 +5,13 @@ import { useEffect, useState } from "react";
 import { ViewCollectionButton } from "@/components/ViewCollectionButton";
 import { motion } from "framer-motion";
 
+type ImageItem = {
+  src: string;
+  top: string;
+  left: string;
+  zIndex: number;
+};
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,13 +55,13 @@ export default function Home() {
       src: "/humans/img4.webp", //gray cat
       top: "5%",
       left: "-25%",
-      zIndex: 20,
+      zIndex: 21,
     },
     {
       src: "/humans/img5.webp", //spot cat
       top: "15%",
-      left: "5%",
-      zIndex: 19,
+      left: "0%",
+      zIndex: 20,
     },
     {
       src: "/humans/img6.webp", //black hat
@@ -76,24 +83,24 @@ export default function Home() {
     },
     {
       src: "/humans/img9.webp", //pink hair
-      top: "35%",
-      left: "25%",
+      top: "42%",
+      left: "10%",
       zIndex: 24,
     },
     {
       src: "/humans/img10.webp", //line hair and gray cat
       top: "39%",
-      left: "45%",
+      left: "25%",
       zIndex: 23,
     },
     {
       src: "/humans/img16.webp", //dark blue hair and black cat
       top: "35%",
-      left: "65%",
+      left: "45%",
       zIndex: 22,
     },
     {
-      src: "/humans/img12.webp",
+      src: "/humans/img11.webp",
       top: "-60%",
       left: "-10%",
       zIndex: 9,
@@ -111,10 +118,10 @@ export default function Home() {
       zIndex: 7,
     },
     {
-      src: "/humans/img11.webp",
-      top: "-40%",
-      left: "60%",
-      zIndex: 6,
+      src: "/humans/img12.webp",
+      top: "35%",
+      left: "65%",
+      zIndex: 21,
     },
   ];
   return (
@@ -136,19 +143,19 @@ export default function Home() {
             <div className="absolute inset-0">
               <div className="relative h-full w-full">
                 {/* Logo moved here from fixed position */}
-                <div className="absolute left-10 top-12 z-[9999]">
+                <div className="absolute left-4 sm:left-10 top-6 sm:top-12 z-[9999]">
                   <Link href="/" className="flex items-center">
                     <Image
                       src="/logo.webp"
                       alt="Fluffy HUGS"
                       width={300}
                       height={160}
-                      className="object-cover"
+                      className="w-48 sm:w-64 md:w-auto object-contain"
                     />
                   </Link>
                 </div>
-                <div className="relative h-screen w-full bg-white">
-                  <div className="absolute inset-0">
+                <div className="relative h-screen w-full bg-white overflow-hidden">
+                  <div className="absolute inset-0 overflow-hidden">
                     <div className="relative h-full w-full mx-auto">
                       {imageList.map((image, index) => (
                         <motion.div
@@ -157,8 +164,8 @@ export default function Home() {
                           style={{
                             top: image.top,
                             left: image.left,
-                            width: 750,
-                            height: 750,
+                            width: "clamp(300px, 50vw, 750px)",
+                            height: "clamp(300px, 50vw, 750px)",
                             zIndex: image.zIndex,
                           }}
                           animate={{
@@ -181,11 +188,41 @@ export default function Home() {
                           </div>
                         </motion.div>
                       ))}
+                      <motion.div
+                        className="absolute"
+                        style={{
+                          top: "8%",
+                          left: "25%",
+                          width: "clamp(300px, 50vw, 750px)",
+                          height: "clamp(450px, 75vw, 1125px)",
+                          zIndex: 19,
+                          overflow: "hidden",
+                        }}
+                        animate={{
+                          y: [0, -15, 0],
+                        }}
+                        transition={{
+                          duration: 0.5,
+                          ease: "easeInOut",
+                          repeat: Infinity,
+                          delay: 4 * 0.05,
+                        }}
+                      >
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={"/humans/human.webp"}
+                            alt={`main character`}
+                            fill
+                            className="object-cover object-top"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                        </div>
+                      </motion.div>
                     </div>
                   </div>
                   {/* footer */}
                   <div className="absolute bottom-0 left-0 right-0 z-[100] flex justify-between items-center p-4 ">
-                    <div className="flex space-x-6">
+                    <div className="flex items-center gap-2 sm:gap-4 scale-75 sm:scale-100">
                       <Link
                         href="https://discord.com"
                         className="transition-transform hover:scale-110"
