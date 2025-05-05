@@ -122,14 +122,22 @@ const ImageList = ({ step }: { step: number }) => {
             height: "750px",
             zIndex: image.zIndex,
           }}
+          initial={{ opacity: 0 }}
           animate={{
+            opacity: 1,
             y: [0, -15, 0],
           }}
           transition={{
-            duration: 0.5,
-            ease: "easeInOut",
-            repeat: Infinity,
-            delay: index * 0.05,
+            opacity: {
+              duration: 0.8,
+              ease: "easeInOut",
+            },
+            y: {
+              duration: 0.5,
+              ease: "easeInOut",
+              repeat: Infinity,
+              delay: index * 0.05,
+            },
           }}
         >
           <div className="relative w-full h-full">
