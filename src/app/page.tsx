@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 
@@ -10,6 +10,42 @@ import "swiper/css";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [step, setStep] = useState(1);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const [lastScrollTime, setLastScrollTime] = useState(0);
+  const scrollThreshold = 1000; // Minimum time (ms) between step changes
+
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      const now = Date.now();
+      if (isAnimating || now - lastScrollTime < scrollThreshold) return;
+
+      const scrollDelta = Math.abs(e.deltaY);
+      if (scrollDelta < 50) return; // Ignore small scroll movements
+
+      setIsAnimating(true);
+      setLastScrollTime(now);
+
+      if (e.deltaY > 0 && step < 3) {
+        // Scrolling down
+        setStep(step + 1);
+      } else if (e.deltaY < 0 && step > 1) {
+        // Scrolling up
+        setStep(step - 1);
+      }
+
+      // Reset animation lock after transition
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 1000);
+    },
+    [isAnimating, lastScrollTime, step]
+  );
+
+  useEffect(() => {
+    window.addEventListener("wheel", handleWheel);
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [handleWheel]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -155,7 +191,7 @@ export default function Home() {
   });
 
   return (
-    <main className="min-h-screen w-full bg-gradient-to-r from-[#fbf8f0] to-[#fbf8f0] overflow-hidden">
+    <main className="fixed inset-0 w-full h-screen bg-gradient-to-r from-[#fbf8f0] to-[#fbf8f0] overflow-hidden select-none">
       <AnimatePresence>
         {isLoading ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
