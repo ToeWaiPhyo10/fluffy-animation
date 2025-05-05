@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ViewCollectionButton } from "@/components/ViewCollectionButton";
 import { motion } from "framer-motion";
+import FirstSlide from "@/components/firstSlide";
+import SecondSlide from "@/components/secondSlide";
 
 type ImageItem = {
   src: string;
@@ -100,7 +102,7 @@ export default function Home() {
       zIndex: 22,
     },
     {
-      src: "/humans/img11.webp",
+      src: "/humans/img12.webp",
       top: "-60%",
       left: "-10%",
       zIndex: 9,
@@ -121,7 +123,7 @@ export default function Home() {
       src: "/humans/img12.webp",
       top: "35%",
       left: "65%",
-      zIndex: 21,
+      zIndex: 6,
     },
   ];
   return (
@@ -140,140 +142,7 @@ export default function Home() {
       ) : (
         <div className="overflow-hidden">
           <div className="relative h-screen w-full bg-white">
-            <div className="absolute inset-0">
-              <div className="relative h-full w-full">
-                {/* Logo moved here from fixed position */}
-                <div className="absolute left-4 sm:left-10 top-6 sm:top-12 z-[9999]">
-                  <Link href="/" className="flex items-center">
-                    <Image
-                      src="/logo.webp"
-                      alt="Fluffy HUGS"
-                      width={300}
-                      height={160}
-                      className="w-48 sm:w-64 md:w-auto object-contain"
-                    />
-                  </Link>
-                </div>
-                <div className="relative h-screen w-full bg-white overflow-hidden">
-                  <div className="absolute inset-0 overflow-hidden">
-                    <div className="relative h-full w-full mx-auto">
-                      {imageList.map((image, index) => (
-                        <motion.div
-                          key={index}
-                          className="absolute"
-                          style={{
-                            top: image.top,
-                            left: image.left,
-                            width: "clamp(300px, 50vw, 750px)",
-                            height: "clamp(300px, 50vw, 750px)",
-                            zIndex: image.zIndex,
-                          }}
-                          animate={{
-                            y: [0, -15, 0],
-                          }}
-                          transition={{
-                            duration: 0.5,
-                            ease: "easeInOut",
-                            repeat: Infinity,
-                            delay: index * 0.05,
-                          }}
-                        >
-                          <div className="relative w-full h-full">
-                            <Image
-                              src={image.src}
-                              alt={`Character ${index + 1}`}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                        </motion.div>
-                      ))}
-                      <motion.div
-                        className="absolute"
-                        style={{
-                          top: "8%",
-                          left: "25%",
-                          width: "clamp(300px, 50vw, 750px)",
-                          height: "clamp(450px, 75vw, 1125px)",
-                          zIndex: 19,
-                          overflow: "hidden",
-                        }}
-                        animate={{
-                          y: [0, -15, 0],
-                        }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut",
-                          repeat: Infinity,
-                          delay: 4 * 0.05,
-                        }}
-                      >
-                        <div className="relative w-full h-full">
-                          <Image
-                            src={"/humans/human.webp"}
-                            alt={`main character`}
-                            fill
-                            className="object-cover object-top"
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                          />
-                        </div>
-                      </motion.div>
-                    </div>
-                  </div>
-                  {/* footer */}
-                  <div className="absolute bottom-0 left-0 right-0 z-[100] flex justify-between items-center p-4 ">
-                    <div className="flex items-center gap-2 sm:gap-4 scale-75 sm:scale-100">
-                      <Link
-                        href="https://discord.com"
-                        className="transition-transform hover:scale-110"
-                      >
-                        <div className="bg-[#5865F2] rounded-full p-2">
-                          <Image
-                            src="/social/discord.svg"
-                            alt="Discord"
-                            width={30}
-                            height={24}
-                            className="object-contain"
-                          />
-                        </div>
-                      </Link>
-                      <Link
-                        href="https://opensea.io"
-                        className="transition-transform hover:scale-110"
-                      >
-                        <div className="bg-[#2081E2] rounded-full p-2">
-                          <Image
-                            src="/social/opensea.svg"
-                            alt="OpenSea"
-                            width={30}
-                            height={24}
-                            className="object-contain"
-                          />
-                        </div>
-                      </Link>
-                      <Link
-                        href="https://twitter.com"
-                        className="transition-transform hover:scale-110"
-                      >
-                        <div className="bg-[#1DA1F2] rounded-full p-2">
-                          <Image
-                            src="/social/twitter.svg"
-                            alt="Twitter"
-                            width={30}
-                            height={24}
-                            className="object-contain"
-                          />
-                        </div>
-                      </Link>
-                    </div>
-
-                    <ViewCollectionButton
-                      onClick={() => console.log("View Collection clicked")}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <SecondSlide />
           </div>
         </div>
       )}
