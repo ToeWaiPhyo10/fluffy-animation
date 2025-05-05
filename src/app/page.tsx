@@ -235,15 +235,14 @@ export default function Home() {
               <motion.div
                 className="absolute"
                 style={{
-                  width: step === 2 ? "400px" : "clamp(300px, 50vw, 750px)",
-                  height: step === 2 ? "400px" : "clamp(300px, 50vw, 750px)",
-                  top: step === 1 ? "8%" : "30%",
-                  left: step === 1 ? "25%" : "30%",
+                  width: step === 1 ? "clamp(300px, 50vw, 750px)" : "400px",
+                  height: step === 1 ? "clamp(300px, 50vw, 750px)" : "400px",
+                  top: step === 1 ? "8%" : step === 2 ? "30%" : "50%",
+                  left: step === 1 ? "25%" : step === 2 ? "30%" : "20%",
                   zIndex: 19,
                   transform: "translate(-50%, -50%)",
                 }}
                 animate={{
-                  // y: step === 2 ? 60 : 0,
                   rotate: step === 2 ? -90 : 0,
                 }}
                 transition={{
@@ -264,7 +263,7 @@ export default function Home() {
                 <motion.div
                   className="relative w-full h-full"
                   animate={{
-                    y: step === 2 ? [0, -15, 0] : undefined,
+                    y: step !== 2 ? [0, -15, 0] : undefined,
                     x: step === 2 ? [0, -25, 0] : undefined,
                   }}
                   transition={{
@@ -277,9 +276,9 @@ export default function Home() {
                   <Image
                     src={"/humans/human.webp"}
                     alt={`main character`}
-                    width={step === 2 ? 300 : undefined}
-                    height={step === 2 ? 300 : undefined}
-                    fill={step === 2 ? false : true}
+                    width={step === 1 ? undefined : 300}
+                    height={step === 1 ? undefined : 300}
+                    fill={step === 1 ? true : false}
                     className={`object-cover ${step === 1 ? "object-top" : ""}`}
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
@@ -351,6 +350,102 @@ export default function Home() {
                     </motion.div>
                   ))}
               </AnimatePresence>
+
+              {/* Japanese text */}
+              {step === 3 && (
+                <motion.div
+                  className="absolute right-[10%] z-100 text-left xl:top-[30%] top-[20%] xl:px-0 px-12"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <div className="grid grid-cols-12 gap-2 text-2xl text-[#415296] leading-10 font-medium tracking-[12px]">
+                    {["ふわふわの動物たちに、", "囲まれて、暮らしたい"].map(
+                      (text, index) => (
+                        <motion.div
+                          key={index}
+                          className="col-span-12 text-left"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{
+                            opacity: 1,
+                            y: [0, -15, 0, 15, 0],
+                            x: [0, 10, 0, -10, 0],
+                            rotate: [0, 1, 0, -1, 0],
+                          }}
+                          transition={{
+                            opacity: {
+                              duration: 0.6,
+                              delay: index * 0.8,
+                            },
+                            y: {
+                              duration: 4,
+                              ease: "easeInOut",
+                              repeat: Infinity,
+                              delay: index * 0.2,
+                            },
+                            x: {
+                              duration: 4,
+                              ease: "easeInOut",
+                              repeat: Infinity,
+                              delay: index * 0.2,
+                            },
+                            rotate: {
+                              duration: 4,
+                              ease: "easeInOut",
+                              repeat: Infinity,
+                              delay: index * 0.2,
+                            },
+                          }}
+                        >
+                          {text}
+                        </motion.div>
+                      )
+                    )}
+                  </div>
+                  <div className="grid mt-12 grid-cols-12 gap-2 text-2xl text-[#415296] leading-[40px] font-medium tracking-[12px]">
+                    {["ペットや動物が大好きなあなたへ"].map((text, index) => (
+                      <motion.div
+                        key={index}
+                        className="col-span-12 text-left"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: 1,
+                          y: [0, -15, 0, 15, 0],
+                          x: [0, 10, 0, -10, 0],
+                          rotate: [0, 1, 0, -1, 0],
+                        }}
+                        transition={{
+                          opacity: {
+                            duration: 0.6,
+                            delay: index * 0.8,
+                          },
+                          y: {
+                            duration: 4,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            delay: index * 0.2,
+                          },
+                          x: {
+                            duration: 4,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            delay: index * 0.2,
+                          },
+                          rotate: {
+                            duration: 4,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            delay: index * 0.2,
+                          },
+                        }}
+                      >
+                        {text}
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
               {/* Footer */}
               <div className="absolute bottom-0 left-0 right-0 z-[100] flex justify-between items-center p-4">
                 <div className="flex items-center gap-2 sm:gap-4 scale-75 sm:scale-100">
@@ -394,9 +489,7 @@ export default function Home() {
 
                 <div
                   className="absolute right-[-1%] bottom-[-50%] h-[200px] w-[200px] cursor-pointer"
-                  onClick={() =>
-                    setStep((prev) => (prev === 2 ? 1 : prev == 1 ? 2 : prev))
-                  }
+                  onClick={() => setStep((prev) => prev + 1)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
