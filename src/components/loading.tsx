@@ -11,7 +11,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [setIsLoading]);
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
       <div className="relative h-40 w-40">
@@ -23,6 +23,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
           priority
           loading="eager"
           quality={100}
+          unoptimized
         />
       </div>
     </div>

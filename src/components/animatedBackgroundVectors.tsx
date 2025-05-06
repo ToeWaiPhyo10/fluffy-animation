@@ -49,7 +49,7 @@ const AnimatedBackgroundVectors = ({ step }: { step: number }) => {
     <div>
       <AnimatePresence>
         {step === 2 &&
-          items.map((item, index) => (
+          items.map((item) => (
             <motion.div
               key={`vector-${item.id}`}
               className="absolute w-full"
