@@ -9,34 +9,39 @@ const vectors = [
   "/custom/vector4.svg",
   "/custom/vector5.svg",
 ];
-// Create 8 items to ensure more frequent animations
-const items = Array.from({ length: 8 }).map((_, index) => {
-  // Random position across the screen
-  const x = Math.random() * 80; // 0-80% of screen width
 
-  const y = Math.random() * 80; // 0-80% of screen height
+interface VectorItem {
+  id: number;
+  x: number;
+  y: number;
+  delay: number;
+  scale: number;
+  width: number;
+  height: number;
+  src: string;
+}
 
-  // Stagger delays in 1-second intervals but with some randomness
-  // This ensures at least one vector shows per second
-  const baseDelay = Math.floor(index / 2); // Two items share similar base delay
-  const randomOffset = Math.random() * 0.5; // Add up to 0.5s random offset
-  const delay = baseDelay + randomOffset;
+const fixedPositions = [
+  { x: 20, y: 20, delay: 0 },
+  { x: 70, y: 70, delay: 0 },
+  { x: 30, y: 30, delay: 0.5 },
+  { x: 45, y: 45, delay: 0.5 },
+  { x: 90, y: 20, delay: 0.8 },
+  { x: 60, y: 60, delay: 1 },
+  { x: 50, y: 30, delay: 1.5 },
+  { x: 80, y: 50, delay: 1.5 },
+];
 
-  const scale = 1.2;
-  const width = 150;
-  const height = 150;
-  // Randomly select vector but ensure even distribution
-  const src = vectors[index % vectors.length];
-
+const items: VectorItem[] = Array.from({ length: 8 }).map((_, index) => {
   return {
     id: index,
-    x,
-    y,
-    delay,
-    scale,
-    width,
-    height,
-    src,
+    x: fixedPositions[index].x,
+    y: fixedPositions[index].y,
+    delay: fixedPositions[index].delay,
+    scale: 1.2,
+    width: 150,
+    height: 150,
+    src: vectors[index % vectors.length],
   };
 });
 const AnimatedBackgroundVectors = ({ step }: { step: number }) => {
@@ -63,9 +68,9 @@ const AnimatedBackgroundVectors = ({ step }: { step: number }) => {
               }}
               transition={{
                 y: {
-                  duration: 15,
+                  duration: 3,
                   repeat: Infinity,
-                  delay: index === 0 ? 0 : item.delay,
+                  delay: item.delay,
                   ease: "linear",
                 },
                 opacity: { duration: 0.5 },
@@ -101,7 +106,7 @@ const AnimatedBackgroundVectors = ({ step }: { step: number }) => {
               }}
               transition={{
                 x: {
-                  duration: 15,
+                  duration: 3,
                   repeat: Infinity,
                   delay: index === 0 ? 0 : item.delay,
                   ease: "linear",
