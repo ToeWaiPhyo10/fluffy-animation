@@ -16,7 +16,7 @@ const MainCharacter = ({ step }: { step: number }) => {
         top:
           step === 1
             ? isMobile
-              ? "15%"
+              ? "10%"
               : isTablet
               ? "15%"
               : "8%"
@@ -28,7 +28,7 @@ const MainCharacter = ({ step }: { step: number }) => {
         left:
           step === 1
             ? isMobile
-              ? "50%"
+              ? "20%"
               : "25%"
             : step === 2
             ? isMobile
@@ -39,7 +39,7 @@ const MainCharacter = ({ step }: { step: number }) => {
             : isMobile
             ? "10%"
             : "25%",
-        zIndex: 19,
+        zIndex: isTablet ? 22 : 19,
         transform: "translate(-50%, -50%)",
       }}
       animate={{
