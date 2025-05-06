@@ -8,7 +8,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
